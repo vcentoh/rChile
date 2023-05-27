@@ -18,7 +18,33 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xyX-38-HHt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-381" y="-67"/>
+            <point key="canvasLocation" x="-433" y="-165"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="zEE-ZT-01s">
+            <objects>
+                <navigationController id="9qL-DP-dHo" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="n4z-3z-QUB">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DIP-pc-5ve" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1051" y="696"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jbS-wH-OtI">
+            <objects>
+                <navigationController id="nN4-vc-GWZ" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="WQr-an-2xt">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0y9-Nx-ju4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="254" y="697"/>
         </scene>
     </scenes>
 </document>
