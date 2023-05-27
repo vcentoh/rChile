@@ -9,30 +9,36 @@ import Foundation
 import RxSwift
 
 protocol RedditPresenterProtocol {
-    func fetchThreads(paginated: String) -> Observable<RedditThreadData>
+    var redditThreads: RedditThreadData? { get }
+    func fetchThreads() -> Observable<RedditThreadData>
     func searchThreads()
     func launchConfig()
 }
 
 final class RedditPresenter: RedditPresenterProtocol {
-    private var redditThreads: RedditThreadData
+    var redditThreads: RedditThreadData?
     let interactor: RedditInteractorProtocol
     
     init(interactor: RedditInteractorProtocol) {
         self.interactor = interactor
+        
     }
     
-    func fetchThreads(paginated: String = "") -> Observable<RedditThreadData>{
-       return interactor.fetchThreads(paginated: paginated)
+    func fetchThreads() -> Observable<RedditThreadData>{
+    
+        let pagination = redditThreads?.after ?? ""
+        return interactor.fetchThreads(paginated: pagination)
+            .flatMap { [weak self] threads in
+                self?.redditThreads = threads
+                return Observable.just(threads)
+            }
     }
     
     func searchThreads() {
-        <#code#>
+        
     }
     
     func launchConfig() {
-        <#code#>
+        
     }
-    
-    
 }

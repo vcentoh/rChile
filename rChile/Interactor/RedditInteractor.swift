@@ -28,7 +28,7 @@ final class RedditInteractor: RedditInteractorProtocol {
             .map(RedditThread.self)
             .retry()
             .flatMap({ redditData -> Observable<RedditThreadData> in
-                let filterData = redditData.data.children.filter({$0.data.linkFlairText == LinkFlairTextType.shitposting.rawValue && $0.data.postHint == PostHintType.threadImage.rawValue })
+                let filterData = redditData.data.children.filter({$0.data.linkFlairText == LinkFlairTextType.shitposting.rawValue || $0.data.postHint == PostHintType.threadImage.rawValue })
                 let filterRedditData = RedditThreadData(after: redditData.data.after, children: filterData)
                 return .just(filterRedditData)
             })
