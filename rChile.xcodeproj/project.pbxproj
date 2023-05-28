@@ -26,6 +26,13 @@
 		D028F9BB2A2287D9003B1705 /* RedditThreadViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F9BA2A2287D9003B1705 /* RedditThreadViewCell.swift */; };
 		D028F9BD2A229D8B003B1705 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F9BC2A229D8B003B1705 /* HomeViewController.swift */; };
 		D028F9BF2A22A83D003B1705 /* FlowStartingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028F9BE2A22A83D003B1705 /* FlowStartingPoint.swift */; };
+		D07FA7B62A23AEC800B42D66 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7B52A23AEC800B42D66 /* SearchBarView.swift */; };
+		D07FA7B92A23B09D00B42D66 /* SearchBarAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7B82A23B09D00B42D66 /* SearchBarAction.swift */; };
+		D07FA7BB2A23B0DC00B42D66 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7BA2A23B0DC00B42D66 /* SearchView.swift */; };
+		D07FA7BD2A23B10D00B42D66 /* SearchBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7BC2A23B10D00B42D66 /* SearchBarComponent.swift */; };
+		D07FA7BF2A23B17600B42D66 /* SearchBarTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7BE2A23B17600B42D66 /* SearchBarTextField.swift */; };
+		D07FA7C32A23B61700B42D66 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7C22A23B61700B42D66 /* UIView+Extension.swift */; };
+		D07FA7C52A23C1EC00B42D66 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7C42A23C1EC00B42D66 /* ConfigView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +81,13 @@
 		D028F9BA2A2287D9003B1705 /* RedditThreadViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditThreadViewCell.swift; sourceTree = "<group>"; };
 		D028F9BC2A229D8B003B1705 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D028F9BE2A22A83D003B1705 /* FlowStartingPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowStartingPoint.swift; sourceTree = "<group>"; };
+		D07FA7B52A23AEC800B42D66 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		D07FA7B82A23B09D00B42D66 /* SearchBarAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarAction.swift; sourceTree = "<group>"; };
+		D07FA7BA2A23B0DC00B42D66 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		D07FA7BC2A23B10D00B42D66 /* SearchBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarComponent.swift; sourceTree = "<group>"; };
+		D07FA7BE2A23B17600B42D66 /* SearchBarTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTextField.swift; sourceTree = "<group>"; };
+		D07FA7C22A23B61700B42D66 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		D07FA7C42A23C1EC00B42D66 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
 		FE643A5F470F70CAEA919557 /* Pods_rChile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rChile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -153,9 +167,10 @@
 		D028F96F2A2238C5003B1705 /* rChile */ = {
 			isa = PBXGroup;
 			children = (
+				D07FA7B72A23B07B00B42D66 /* Resources */,
 				D028F9AC2A2270C3003B1705 /* Presenter */,
 				D028F9A72A223F9C003B1705 /* Network */,
-				D028F9A62A223E65003B1705 /* Resources */,
+				D028F9A62A223E65003B1705 /* Main Control */,
 				D028F9A52A223E57003B1705 /* Interactor */,
 				D028F9A42A223E3F003B1705 /* Views */,
 				D028F9A32A223E36003B1705 /* Entities */,
@@ -196,8 +211,11 @@
 		D028F9A42A223E3F003B1705 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D07FA7BA2A23B0DC00B42D66 /* SearchView.swift */,
 				D028F9BA2A2287D9003B1705 /* RedditThreadViewCell.swift */,
 				D028F9BC2A229D8B003B1705 /* HomeViewController.swift */,
+				D07FA7B52A23AEC800B42D66 /* SearchBarView.swift */,
+				D07FA7C42A23C1EC00B42D66 /* ConfigView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,14 +228,14 @@
 			path = Interactor;
 			sourceTree = "<group>";
 		};
-		D028F9A62A223E65003B1705 /* Resources */ = {
+		D028F9A62A223E65003B1705 /* Main Control */ = {
 			isa = PBXGroup;
 			children = (
 				D028F9702A2238C5003B1705 /* AppDelegate.swift */,
 				D028F9722A2238C5003B1705 /* SceneDelegate.swift */,
 				D028F9BE2A22A83D003B1705 /* FlowStartingPoint.swift */,
 			);
-			path = Resources;
+			path = "Main Control";
 			sourceTree = "<group>";
 		};
 		D028F9A72A223F9C003B1705 /* Network */ = {
@@ -234,6 +252,17 @@
 				D028F9B82A228117003B1705 /* RedditPresenter.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		D07FA7B72A23B07B00B42D66 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D07FA7B82A23B09D00B42D66 /* SearchBarAction.swift */,
+				D07FA7BC2A23B10D00B42D66 /* SearchBarComponent.swift */,
+				D07FA7BE2A23B17600B42D66 /* SearchBarTextField.swift */,
+				D07FA7C22A23B61700B42D66 /* UIView+Extension.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -473,17 +502,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				D028F9712A2238C5003B1705 /* AppDelegate.swift in Sources */,
+				D07FA7BF2A23B17600B42D66 /* SearchBarTextField.swift in Sources */,
 				D028F9BD2A229D8B003B1705 /* HomeViewController.swift in Sources */,
 				D028F9B92A228117003B1705 /* RedditPresenter.swift in Sources */,
 				D028F9B62A2279A0003B1705 /* RedditInteractor.swift in Sources */,
 				D028F9B22A2274F4003B1705 /* Child.swift in Sources */,
 				D028F97B2A2238C5003B1705 /* rChile.xcdatamodeld in Sources */,
+				D07FA7C52A23C1EC00B42D66 /* ConfigView.swift in Sources */,
+				D07FA7BD2A23B10D00B42D66 /* SearchBarComponent.swift in Sources */,
 				D028F9B42A22750A003B1705 /* ChildData.swift in Sources */,
 				D028F9AE2A227436003B1705 /* RedditThread.swift in Sources */,
 				D028F9AB2A226AC7003B1705 /* RedditProvider.swift in Sources */,
+				D07FA7B92A23B09D00B42D66 /* SearchBarAction.swift in Sources */,
 				D028F9732A2238C5003B1705 /* SceneDelegate.swift in Sources */,
+				D07FA7B62A23AEC800B42D66 /* SearchBarView.swift in Sources */,
+				D07FA7BB2A23B0DC00B42D66 /* SearchView.swift in Sources */,
 				D028F9BB2A2287D9003B1705 /* RedditThreadViewCell.swift in Sources */,
 				D028F9BF2A22A83D003B1705 /* FlowStartingPoint.swift in Sources */,
+				D07FA7C32A23B61700B42D66 /* UIView+Extension.swift in Sources */,
 				D028F9B02A227468003B1705 /* RedditThreadData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

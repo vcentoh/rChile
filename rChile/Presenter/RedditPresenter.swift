@@ -11,12 +11,13 @@ import RxSwift
 protocol RedditPresenterProtocol {
     var redditThreads: RedditThreadData? { get }
     func fetchThreads() -> Observable<Void>
-    func searchThreads()
+    func searchThreads(target: String) -> Observable<Void>
     func launchConfig()
     func refreshThreads() -> Observable<Void>
 }
 
 final class RedditPresenter: RedditPresenterProtocol {
+    
     var redditThreads: RedditThreadData?
     let interactor: RedditInteractorProtocol
     
@@ -25,7 +26,7 @@ final class RedditPresenter: RedditPresenterProtocol {
         
     }
     
-    func fetchThreads() -> Observable<Void>{
+    func fetchThreads() -> Observable<Void> {
         let pagination = redditThreads?.after ?? ""
         return interactor.fetchThreads(paginated: pagination)
             .flatMap { [weak self] threads in
@@ -44,8 +45,18 @@ final class RedditPresenter: RedditPresenterProtocol {
         return fetchThreads()
     }
     
-    func searchThreads() {
-        
+    func searchThreads(target: String) -> Observable<Void> {
+        let pagination = redditThreads?.after ?? ""
+        return interactor.search(target: target, paginated: pagination)
+            .flatMap { [weak self] threads in
+                guard ((self?.redditThreads) != nil) else {
+                    self?.redditThreads = threads
+                    return Observable.just(())
+                }
+                self?.redditThreads?.after = threads.after
+                self?.redditThreads = threads
+                return Observable.just(())
+            }
     }
     
     func launchConfig() {

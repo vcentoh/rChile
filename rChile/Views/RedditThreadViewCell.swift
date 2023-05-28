@@ -148,10 +148,9 @@ final class RedditThreadViewCell: UICollectionViewCell {
         downArrow.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
-    func setupCell(postData: ChildData) {
+    func setupCell(postData: ChildData?) {
+        guard let postData = postData else { return }
         titleLabel.text = postData.title
-//        scoreLabel.text = postData.score
-//        commentLa
         loadImage(url: postData.url)
         scoreLabel.text =  String(postData.score)
     }
