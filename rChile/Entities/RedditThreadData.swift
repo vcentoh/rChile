@@ -9,6 +9,6 @@ import Foundation
 
 // MARK: - RedditThreadData
 struct RedditThreadData: Codable {
-    let after: String
-    let children: [Child]
+    var after: String
+    var children: [Child]
 }

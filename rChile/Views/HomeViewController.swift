@@ -12,13 +12,13 @@ import RxSwift
 final class HomeViewController: UIViewController  {
     
     private let bag = DisposeBag()
+    private let refreshControl = UIRefreshControl()
     
     private lazy var searchBar: UIView = {
-        let frame: CGRect = CGRect(x: self.view.bounds.maxX, y: self.view.bounds.maxY, width: self.view.bounds.width,
-                                   height: (self.view.bounds.height * 0.2))
-        let view = UIView(frame: frame)
+        let view = UIView(frame: .zero)
         view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = false
         return view
     }()
     
@@ -33,6 +33,10 @@ final class HomeViewController: UIViewController  {
     private lazy var searchButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .red
+        let image =  UIImage(systemName: "magnifyingglass")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        button.setImage(image, for: .normal)
+        button.layer.cornerRadius = 0.5
         return button
     }()
     
@@ -68,8 +72,14 @@ final class HomeViewController: UIViewController  {
         fetchData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     func addSubviews() {
         self.view.addSubview(collectionView)
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
+        collectionView.refreshControl = self.refreshControl
         setSearchBar()
         setConstraints()
     }
@@ -89,29 +99,58 @@ final class HomeViewController: UIViewController  {
     }
     
     func setSearchBarConstraints() {
-        self.searchBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        navigationController?.isNavigationBarHidden = true
+        
+        self.searchBar.widthAnchor.constraint(lessThanOrEqualTo: self.view.widthAnchor, multiplier: 1).isActive = true
+        self.searchBar.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        self.searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
         self.searchBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.searchBar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        self.searchButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 5).isActive = true
-        self.searchButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 5).isActive = true
-        self.searchButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 5).isActive = true
-        self.searchButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        self.searchButton.topAnchor.constraint(equalTo: searchBar.topAnchor, constant: 5).isActive = true
+        self.searchButton.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: -25).isActive = true
+        self.searchButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        self.searchButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         self.searchText.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor, constant: 5).isActive = true
         self.searchText.topAnchor.constraint(equalTo: searchBar.topAnchor, constant: 2).isActive = true
-        self.searchText.bottomAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 2).isActive = true
-        self.searchText.trailingAnchor.constraint(equalTo: searchBar.leadingAnchor, constant: 2).isActive = true
+        self.searchText.bottomAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: -2).isActive = true
+        self.searchText.trailingAnchor.constraint(equalTo: searchButton.leadingAnchor, constant: -5).isActive = true
     }
     
     private func fetchData() {
         presenter.fetchThreads()
             .subscribe(onNext: { [weak self] threadData in
                 guard let self = self else { return }
+                self.refreshControl.endRefreshing()
                 self.collectionView.reloadData()
             }).disposed(by: bag)
     }
+    
+    @objc
+    private func didPullToRefresh(_ sender: Any) {
+        presenter.refreshThreads()
+            .subscribe(onNext: { [weak self] threadData in
+                guard let self = self else { return }
+                self.refreshControl.endRefreshing()
+                self.collectionView.reloadData()
+            }).disposed(by: bag)
+    }
+    
 }
 
 extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        guard let threads = presenter.redditThreads else { return }
+        if indexPath.row == threads.children.count - 1 {
+            presenter.fetchThreads()
+                .subscribe(onNext: { _ in
+                    collectionView.performBatchUpdates({
+                        collectionView.reloadSections([0])
+                    })
+                }).disposed(by: bag)
+        }
+    }
     
 }
 
