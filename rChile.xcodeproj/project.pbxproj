@@ -33,6 +33,7 @@
 		D07FA7BF2A23B17600B42D66 /* SearchBarTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7BE2A23B17600B42D66 /* SearchBarTextField.swift */; };
 		D07FA7C32A23B61700B42D66 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7C22A23B61700B42D66 /* UIView+Extension.swift */; };
 		D07FA7C52A23C1EC00B42D66 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FA7C42A23C1EC00B42D66 /* ConfigView.swift */; };
+		D07FA7C72A241F3800B42D66 /* RedditAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D07FA7C62A241F3800B42D66 /* RedditAssets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		D07FA7BE2A23B17600B42D66 /* SearchBarTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTextField.swift; sourceTree = "<group>"; };
 		D07FA7C22A23B61700B42D66 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		D07FA7C42A23C1EC00B42D66 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
+		D07FA7C62A241F3800B42D66 /* RedditAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RedditAssets.xcassets; sourceTree = "<group>"; };
 		FE643A5F470F70CAEA919557 /* Pods_rChile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rChile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -261,6 +263,7 @@
 				D07FA7BC2A23B10D00B42D66 /* SearchBarComponent.swift */,
 				D07FA7BE2A23B17600B42D66 /* SearchBarTextField.swift */,
 				D07FA7C22A23B61700B42D66 /* UIView+Extension.swift */,
+				D07FA7C62A241F3800B42D66 /* RedditAssets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D07FA7C72A241F3800B42D66 /* RedditAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,8 +679,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA3CC59F2CEFACF28AB01C63 /* Pods-rChile.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F96KQ4LW6N;
@@ -705,8 +709,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3DA0D31DD7EB820376068EFE /* Pods-rChile.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F96KQ4LW6N;

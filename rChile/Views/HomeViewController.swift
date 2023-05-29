@@ -14,6 +14,7 @@ final class HomeViewController: UIViewController  {
     
     private let bag = DisposeBag()
     private let refreshControl = UIRefreshControl()
+    private let presenter: RedditPresenterProtocol
     private var searchBar: SearchBarComponent?
     
     private lazy var collectionView: UICollectionView = {
@@ -22,6 +23,7 @@ final class HomeViewController: UIViewController  {
         collection.showsVerticalScrollIndicator = false
         collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.keyboardDismissMode = .onDrag
         collection.delegate = self
         collection.dataSource = self
         collection.register(RedditThreadViewCell.self,
@@ -50,8 +52,6 @@ final class HomeViewController: UIViewController  {
                 self.search(query: query)
             }).disposed(by: bag)
     }
-    
-    private let presenter: RedditPresenterProtocol
     
     init(with presenter: RedditPresenterProtocol) {
         self.presenter = presenter
@@ -143,7 +143,6 @@ extension HomeViewController: UICollectionViewDelegate {
                 }).disposed(by: bag)
         }
     }
-    
 }
 
 extension HomeViewController: UICollectionViewDataSource {

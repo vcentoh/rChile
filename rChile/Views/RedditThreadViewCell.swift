@@ -64,6 +64,9 @@ final class RedditThreadViewCell: UICollectionViewCell {
     
     lazy var commentBubble: UIImageView = {
         let image = UIImageView()
+        let icon = UIImage(systemName: "bubble.right")
+        icon?.withTintColor(.black, renderingMode: .alwaysTemplate)
+        image.image = icon
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleToFill
         image.layer.cornerRadius = 0.3
@@ -73,10 +76,9 @@ final class RedditThreadViewCell: UICollectionViewCell {
     lazy var commentLabel: UILabel  = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
         label.textColor = .gray
         return label
     }()
@@ -122,11 +124,23 @@ final class RedditThreadViewCell: UICollectionViewCell {
         thumbnailImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
         thumbnailImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.55).isActive = true
         
+        titleLabel.leadingAnchor.constraint(equalTo: scoreFrame.trailingAnchor, constant: 10).isActive = true
         titleLabel.topAnchor.constraint(equalTo: thumbnailImage.bottomAnchor, constant: 5).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5).isActive = true
         titleLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7).isActive = true
         
         setScoreConstraints()
+        setComments()
+    }
+    
+    func setComments() {
+        commentBubble.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -15).isActive = true
+        commentBubble.leadingAnchor.constraint(equalTo: scoreFrame.trailingAnchor, constant: 5).isActive = true
+        commentBubble.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        commentBubble.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        commentLabel.leadingAnchor.constraint(equalTo: commentBubble.trailingAnchor, constant: 5).isActive = true
+        commentLabel.centerYAnchor.constraint(equalTo: commentBubble.centerYAnchor).isActive = true
+        commentLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     func setScoreConstraints() {
@@ -151,33 +165,20 @@ final class RedditThreadViewCell: UICollectionViewCell {
     func setupCell(postData: ChildData?) {
         guard let postData = postData else { return }
         titleLabel.text = postData.title
-        loadImage(url: postData.url)
+        titleLabel.numberOfLines = 3
+        if postData.postHint != "image" {
+            var image = UIImage(named: "App")
+            thumbnailImage.image = image
+            thumbnailImage.contentMode = .scaleAspectFit
+        } else {
+            loadImage(url: postData.url)
+        }
         scoreLabel.text =  String(postData.score)
+        commentLabel.text = String(postData.numComments)
     }
     
     private func loadImage(url: String) {
         let varUrl = URL(string: url)
         thumbnailImage.kf.setImage(with: varUrl)
-//        let processor = DownsamplingImageProcessor(size: thumbnailImage.bounds.size)
-//        |> RoundCornerImageProcessor(cornerRadius: 20)
-//        thumbnailImage.kf.indicatorType = .activity
-//        thumbnailImage.kf.setImage(
-//            with: varUrl,
-//            placeholder: UIImage(named: "placeholderImage"),
-//            options: [
-//                .processor(processor),
-//                .scaleFactor(UIScreen.main.scale),
-//                .transition(.fade(1)),
-//                .cacheOriginalImage
-//            ])
-//        {
-//            result in
-//            switch result {
-//                case .success(let value):
-//                    print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//                case .failure(let error):
-//                    print("Job failed: \(error.localizedDescription)")
-//            }
-//        }
     }
 }

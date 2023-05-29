@@ -12,6 +12,7 @@ import Moya
 protocol RedditInteractorProtocol  {
     func fetchThreads(paginated: String?) -> Observable<RedditThreadData>
     func search(target: String, paginated: String?) -> Observable<RedditThreadData>
+    func presentConfig() -> Observable<Void>
 }
 
 final class RedditInteractor: RedditInteractorProtocol {
@@ -38,12 +39,16 @@ final class RedditInteractor: RedditInteractorProtocol {
         return provider.rx.request(.searchThreads(genre: target, limitPerPage: limit, pagination: ""))
             .asObservable()
             .map(RedditThread.self)
-            .retry()
-            .flatMap({ redditData -> Observable<RedditThreadData> in
+            .retry(2)
+            .flatMapLatest({ redditData -> Observable<RedditThreadData> in
                 let filterData = redditData.data.children.filter({$0.data.linkFlairText == LinkFlairTextType.shitposting.rawValue || $0.data.postHint == PostHintType.threadImage.rawValue })
                 let filterRedditData = RedditThreadData(after: redditData.data.after, children: filterData)
                 return .just(filterRedditData)
             })
+    }
+    
+    func presentConfig() -> Observable<Void> {
+        return .just(())
     }
 }
 

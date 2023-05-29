@@ -31,8 +31,7 @@ final class SearchBarImageView: UIView {
     // MARK: - UI elements
 
     private lazy var imageView: UIImageView = {
-        var image = UIImage(systemName: "magnifyingglass")
-        image?.withTintColor(.white)
+        var image = UIImage(systemName: "magnifyingglass")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -75,6 +74,6 @@ private extension SearchBarImageView {
     }
     // MARK: - Gradient
     func setupGradient() {
-        backgroundColor = UIColor.magenta
+        backgroundColor = UIColor.orange
     }
 }

@@ -14,6 +14,16 @@ struct ChildData: Codable {
         case postHint = "post_hint"
         case numComments = "num_comments"
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        linkFlairText = try container.decodeIfPresent(String.self, forKey: .linkFlairText) ?? ""
+        postHint = try container.decodeIfPresent(String.self, forKey: .postHint) ?? ""
+        url = try container.decodeIfPresent(String.self, forKey: .url) ?? ""
+        score = try container.decodeIfPresent(Int.self, forKey: .score) ?? 0
+        title = try container.decodeIfPresent(String.self, forKey: .title) ?? ""
+        numComments = try container.decodeIfPresent(Int.self, forKey: .numComments) ?? 0
+    }
 }
 
 enum LinkFlairTextType: String {
