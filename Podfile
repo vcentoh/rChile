@@ -11,6 +11,7 @@ pod 'Moya/RxSwift', '~> 15.0'
 pod 'RxSwift'
 pod 'RxCocoa'
 pod 'Kingfisher', '~> 7.0'
+pod 'SPPermissions/Camera'
 
   target 'rChileTests' do
     inherit! :search_paths

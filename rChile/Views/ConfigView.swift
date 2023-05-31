@@ -8,12 +8,15 @@
 import Foundation
 import UIKit
 import RxSwift
+import UserNotifications
 
 final class ConfigView: UIViewController {
     //MARK: View variables
     private var thumbnail: UIImage = UIImage()
     private var presentedType: ConfigType = .camera
     private var bag = DisposeBag()
+    private var presenter: RedditPresenterProtocol
+    var type: ConfigType = .camera
     
     // MARK: - UI elements
     private lazy var imageView: UIImageView = {
@@ -49,21 +52,27 @@ final class ConfigView: UIViewController {
     
     private lazy var acceptButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.text = ""
-        button.isHidden = false
+        button.backgroundColor = .red
+        button.setTitle( "Allow", for: .normal)
+        button.setupRoundedCorners(radius: 15)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private lazy var declineButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.text = "Cancel"
-        button.titleLabel?.textColor = .red
-        button.isHidden = false
+        button.backgroundColor = .clear
+        button.setTitle( "Decline", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    init() {
+    init(presenter: RedditPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
+        addViews()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
@@ -73,7 +82,6 @@ final class ConfigView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        addViews()
     }
     
     // MARK: - UI
@@ -105,13 +113,11 @@ final class ConfigView: UIViewController {
 
         acceptButton.topAnchor.constraint(equalTo: exposureLabel.bottomAnchor, constant: 30).isActive = true
         acceptButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        acceptButton.widthAnchor.constraint(equalToConstant: view.bounds.width * 0.5).isActive = true
+        acceptButton.widthAnchor.constraint(equalToConstant: view.bounds.width * 0.3).isActive = true
         acceptButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
-        declineButton.topAnchor.constraint(equalTo: acceptButton.bottomAnchor, constant: 30).isActive = true
-        declineButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        declineButton.widthAnchor.constraint(equalToConstant: view.bounds.width * 0.5).isActive = true
-        declineButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        declineButton.topAnchor.constraint(equalTo: acceptButton.bottomAnchor, constant: 10).isActive = true
+        declineButton.centerXAnchor.constraint(equalTo: acceptButton.centerXAnchor).isActive = true
     }
     
     func cleanView() {
@@ -122,9 +128,10 @@ final class ConfigView: UIViewController {
     }
     
     //MARK: View Configuration
-    func configView(type: ConfigType) {
+    func configView(nType: ConfigType) {
         cleanView()
-        switch type{
+        self.type = nType
+        switch type {
             case .camera:
                 thumbnail = UIImage(named: "camera") ?? UIImage()
                 imageView.image = thumbnail.withRenderingMode(.alwaysOriginal)
@@ -146,6 +153,16 @@ final class ConfigView: UIViewController {
         }
     }
     
+    func openNativeView() {
+//        switch type {
+//            case .notification:
+//                
+//            case .location:
+//                
+//            case .camera:
+//        }
+    }
+    
     //MARK: Action for the view
     func bindActions() {
         acceptButton.rx
@@ -154,7 +171,8 @@ final class ConfigView: UIViewController {
             .throttle(.milliseconds(250), latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] () in
                 guard let self = self else { return }
-                
+                presenter.nextView(type: self.presentedType)
+
             })
             .disposed(by: bag)
         
@@ -164,7 +182,7 @@ final class ConfigView: UIViewController {
             .throttle(.milliseconds(250), latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] () in
                 guard let self = self else { return }
-                self.dismiss(animated: true)
+                presenter.nextView(type: self.presentedType)
             })
             .disposed(by: bag)
     }

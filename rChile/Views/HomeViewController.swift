@@ -152,7 +152,7 @@ final class HomeViewController: UIViewController  {
     }
     
     private func openConfigflow() {
-        var view = presenter.premissionFlow()
+        let view = presenter.premissionFlow()
         self.present(view
                      , animated: true)
     }
