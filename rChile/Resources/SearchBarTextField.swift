@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class SearchBarTextField: UITextField {
+    
     private var enableCopyPasteAssociationKey = ""
 
     override var placeholder: String? {

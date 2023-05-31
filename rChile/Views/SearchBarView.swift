@@ -20,7 +20,6 @@ final class SearchBarView: UIView, UITextFieldDelegate {
         case typing
         case empty
         case main
-        case openConfig
 
         var isActive: Bool {
             return self == .typing || self == .empty
@@ -37,16 +36,6 @@ final class SearchBarView: UIView, UITextFieldDelegate {
     private lazy var clearButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        return button
-    }()
-    
-    private lazy var configButton: UIButton = {
-        let button = UIButton()
-        button.isHidden = false
-        button.backgroundColor = .gray
-        var image = UIImage(systemName: "gear.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        button.setImage(image, for: .normal)
-        button.setupRoundedCorners(radius: 7.0)
         return button
     }()
 
@@ -155,7 +144,6 @@ final class SearchBarView: UIView, UITextFieldDelegate {
 
     private func setupUI() {
         self.addSubview(containerView)
-        containerView.addSubview(configButton)
         containerView.addSubview(searchTextField)
         containerView.addSubview(searchView)
         containerView.addSubview(clearButton)
@@ -169,7 +157,6 @@ final class SearchBarView: UIView, UITextFieldDelegate {
         setSearchButtonConstraints()
         setClearButtonConstraints()
         setSearchTextFieldConstraints()
-        setConfigButtonConstraints()
     }
 
     @objc
@@ -180,7 +167,8 @@ final class SearchBarView: UIView, UITextFieldDelegate {
             openSubject.onNext(())
         }
     }
-
+    
+//MARK: Search and Buttons Action
     private func bindAction() {
         clearButton.rx.tap
             .throttle(.milliseconds(5), latest: false, scheduler: MainScheduler.instance)
@@ -219,16 +207,6 @@ final class SearchBarView: UIView, UITextFieldDelegate {
                 let state: CurrentState = text.isEmpty ? .empty : .typing
                 self.configureSearchView(for: state)
             }).disposed(by: disposeBag)
-        
-        configButton.rx
-            .tap
-            .asObservable()
-            .throttle(.milliseconds(250), latest: false, scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] () in
-                guard let self = self else { return }
-                self.currentState = .openConfig
-            })
-            .disposed(by: disposeBag)
     }
 
     private func setupClearButton() {
@@ -249,11 +227,6 @@ final class SearchBarView: UIView, UITextFieldDelegate {
             self?.layoutIfNeeded()
         }
     }
-    
-    private func presentConfigView(for state: CurrentState) {
-        guard state != currentState else { return }
-        
-    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -271,8 +244,6 @@ final class SearchBarView: UIView, UITextFieldDelegate {
         case .empty:
             animateClearButton(show: false, delay: 0.0)
             animateSearchView(show: false, delay: 0.0)
-        case .openConfig:
-                break;
         }
     }
 }
@@ -321,15 +292,6 @@ private extension SearchBarView {
         searchView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
         searchView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
     }
-    
-    func setConfigButtonConstraints() {
-        configButton.translatesAutoresizingMaskIntoConstraints = false
-        configButton.widthAnchor.constraint(equalToConstant: clearButtonWidth).isActive = true
-        configButton.heightAnchor.constraint(equalToConstant: clearButtonWidth).isActive = true
-        configButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5
-        ).isActive = true
-        configButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    }
 
     // MARK: - clearButton
     func setClearButtonConstraints() {
@@ -345,7 +307,7 @@ private extension SearchBarView {
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         searchTextField.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
         searchTextField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 0).isActive = true
-        searchTextField.leadingAnchor.constraint(equalTo: configButton.trailingAnchor, constant: 24).isActive = true
+        searchTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24).isActive = true
         searchTextField.trailingAnchor.constraint(equalTo: searchView.leadingAnchor, constant: -4).isActive = true
         searchTextField.widthAnchor.constraint(lessThanOrEqualTo: containerView.widthAnchor, multiplier: 1).isActive = true
         searchTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true

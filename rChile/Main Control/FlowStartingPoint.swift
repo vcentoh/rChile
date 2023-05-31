@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Moya
 
+//MARK: Launching the view.
 final class FlowStartingPoint {
     
     var navigationController: UINavigationController?

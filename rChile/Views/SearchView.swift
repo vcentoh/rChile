@@ -11,10 +11,9 @@ import UIKit
 final class SearchBarImageView: UIView {
 
     // MARK: - Properties
-
     private let sizeConstant: CGFloat = 24.0
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
+    
     override var tintColor: UIColor! {
         get { super.tintColor }
         set {

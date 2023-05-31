@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import Moya
 
+//MARK: Interacto, and its protocol.
 protocol RedditInteractorProtocol  {
     func fetchThreads(paginated: String?) -> Observable<RedditThreadData>
     func search(target: String, paginated: String?) -> Observable<RedditThreadData>
@@ -23,6 +24,7 @@ final class RedditInteractor: RedditInteractorProtocol {
         self.provider = provider
     }
     
+    //MARK: Get the threads from target
     func fetchThreads(paginated: String?) -> Observable<RedditThreadData> {
         return provider.rx.request(.getThreads(limitPerPage: limit, pagination: paginated))
             .asObservable()
@@ -35,6 +37,7 @@ final class RedditInteractor: RedditInteractorProtocol {
             })
     }
     
+    //MARK: Search threads by a Query
     func search(target: String, paginated: String?) -> Observable<RedditThreadData> {
         return provider.rx.request(.searchThreads(genre: target, limitPerPage: limit, pagination: ""))
             .asObservable()

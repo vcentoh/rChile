@@ -11,6 +11,7 @@ import Kingfisher
 
 final class RedditThreadViewCell: UICollectionViewCell {
     
+    // MARK: - Properties
     static var identifier = "RedditThreadViewCell"
     
     lazy var thumbnailImage: UIImageView = {
@@ -20,6 +21,7 @@ final class RedditThreadViewCell: UICollectionViewCell {
         return image
     }()
     
+    // MARK: - UI elements
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
@@ -90,6 +92,7 @@ final class RedditThreadViewCell: UICollectionViewCell {
         return view
     }()
     
+    //MARK: Inits
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubviews()
@@ -102,6 +105,7 @@ final class RedditThreadViewCell: UICollectionViewCell {
         setConstraints()
     }
     
+    //
     func addSubviews() {
         self.addSubview(thumbnailImage)
         self.addSubview(titleLabel)
@@ -119,7 +123,7 @@ final class RedditThreadViewCell: UICollectionViewCell {
     }
     
     func setConstraints() {
-        thumbnailImage.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        thumbnailImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
         thumbnailImage.leadingAnchor.constraint(equalTo: self.scoreFrame.trailingAnchor).isActive = true
         thumbnailImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
         thumbnailImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.55).isActive = true
@@ -167,7 +171,7 @@ final class RedditThreadViewCell: UICollectionViewCell {
         titleLabel.text = postData.title
         titleLabel.numberOfLines = 3
         if postData.postHint != "image" {
-            var image = UIImage(named: "App")
+            let image = UIImage(named: "App")
             thumbnailImage.image = image
             thumbnailImage.contentMode = .scaleAspectFit
         } else {

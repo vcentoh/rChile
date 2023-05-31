@@ -12,11 +12,13 @@ import RxCocoa
 
 final class HomeViewController: UIViewController  {
     
+    // MARK: - Properties
     private let bag = DisposeBag()
     private let refreshControl = UIRefreshControl()
     private let presenter: RedditPresenterProtocol
     private var searchBar: SearchBarComponent?
     
+    //MARK: UI Components
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero,
                                           collectionViewLayout: UICollectionViewFlowLayout())
@@ -53,6 +55,16 @@ final class HomeViewController: UIViewController  {
             }).disposed(by: bag)
     }
     
+    private lazy var configButton: UIButton = {
+        let button = UIButton()
+        button.isHidden = false
+        button.backgroundColor = .gray
+        var image = UIImage(systemName: "gear.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        button.setImage(image, for: .normal)
+        button.setupRoundedCorners(radius: 7.0)
+        return button
+    }()
+    
     init(with presenter: RedditPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -67,6 +79,7 @@ final class HomeViewController: UIViewController  {
         self.view.backgroundColor = .white
         addSubviews()
         fetchData()
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,15 +88,17 @@ final class HomeViewController: UIViewController  {
     
     func addSubviews() {
         self.view.addSubview(collectionView)
+        self.view.addSubview(configButton)
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
         collectionView.refreshControl = self.refreshControl
         setupSearchBar()
         setConstraints()
+        setConfigButtonConstraints()
     }
     
     func setConstraints() {
         guard let searchBar else  { return }
-        collectionView.topAnchor.constraint(equalTo: searchBar.base.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: searchBar.base.bottomAnchor, constant: 10).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
@@ -92,10 +107,18 @@ final class HomeViewController: UIViewController  {
     private func setSearchViewConstraints(with view: UIView) {
         view.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
         view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30).isActive = true
-        view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30).isActive = true
+        view.leadingAnchor.constraint(equalTo: self.configButton.trailingAnchor, constant: 30).isActive = true
         view.heightAnchor.constraint(equalToConstant: 56).isActive = true
         view.widthAnchor.constraint(lessThanOrEqualTo: self.view.widthAnchor, multiplier: 1).isActive = true
         view.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -15).isActive = true
+    }
+    
+    func setConfigButtonConstraints() {
+        configButton.translatesAutoresizingMaskIntoConstraints = false
+        configButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        configButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        configButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10).isActive = true
+        configButton.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -20).isActive = true
     }
     
     private func search(query: String) {
@@ -125,6 +148,21 @@ final class HomeViewController: UIViewController  {
                 guard let self = self else { return }
                 self.refreshControl.endRefreshing()
                 self.collectionView.reloadData()
+            }).disposed(by: bag)
+    }
+    
+    private func openConfigflow() {
+        var view = presenter.premissionFlow()
+        self.present(view
+                     , animated: true)
+    }
+    
+    private func bind() {
+        configButton.rx
+            .tap
+            .throttle(.milliseconds(5), latest: false, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                self?.openConfigflow()
             }).disposed(by: bag)
     }
 }

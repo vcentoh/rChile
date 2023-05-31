@@ -7,12 +7,15 @@
 
 import Foundation
 import RxSwift
+import CoreData
 
+
+//MARK: Presenter and its protocol
 protocol RedditPresenterProtocol {
     var redditThreads: RedditThreadData? { get }
     func fetchThreads() -> Observable<Void>
     func searchThreads(target: String) -> Observable<Void>
-    func launchConfig()
+    func premissionFlow() -> UIViewController
     func refreshThreads() -> Observable<Void>
 }
 
@@ -59,7 +62,11 @@ final class RedditPresenter: RedditPresenterProtocol {
             }
     }
     
-    func launchConfig() {
-        
+    
+    func premissionFlow() -> UIViewController {
+        var vc = ConfigView()
+        vc.configView(type: .location)
+        vc.modalPresentationStyle = .fullScreen
+        return vc
     }
 }

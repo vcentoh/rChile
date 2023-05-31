@@ -12,6 +12,7 @@ import RxRelay
 let apiURL = "https://www.reddit.com/r/chile/"
 let limitPerPage = 100
 
+//MARK:
 enum RedditProvider {
     case getThreads(limitPerPage: Int, pagination: String?)
     case searchThreads( genre: String , limitPerPage: Int, pagination: String?)
