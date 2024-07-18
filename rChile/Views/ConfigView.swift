@@ -13,7 +13,6 @@ import UserNotifications
 final class ConfigView: UIViewController {
     //MARK: View variables
     private var thumbnail: UIImage = UIImage()
-    private var presentedType: ConfigType = .camera
     private var bag = DisposeBag()
     private var presenter: RedditPresenterProtocol
     var type: ConfigType = .camera
@@ -150,6 +149,8 @@ final class ConfigView: UIViewController {
                 titleLabel.text = "Enable push notifications"
                 exposureLabel.text = "Enable push notifications to let us send you personal news and updates "
                 acceptButton.titleLabel?.text = "Enable"
+            case .close:
+                break;
         }
     }
     
@@ -171,7 +172,7 @@ final class ConfigView: UIViewController {
             .throttle(.milliseconds(250), latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] () in
                 guard let self = self else { return }
-                presenter.nextView(type: self.presentedType)
+                presenter.nextView(type: self.type)
 
             })
             .disposed(by: bag)
@@ -182,14 +183,8 @@ final class ConfigView: UIViewController {
             .throttle(.milliseconds(250), latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] () in
                 guard let self = self else { return }
-                presenter.nextView(type: self.presentedType)
+                presenter.nextView(type: .close)
             })
             .disposed(by: bag)
     }
-}
-
-enum ConfigType {
-    case camera
-    case location
-    case notification
 }

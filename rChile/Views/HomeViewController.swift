@@ -152,9 +152,7 @@ final class HomeViewController: UIViewController  {
     }
     
     private func openConfigflow() {
-        let view = presenter.premissionFlow()
-        self.present(view
-                     , animated: true)
+        presenter.premissionFlow(nav: self.navigationController ?? UINavigationController())
     }
     
     private func bind() {

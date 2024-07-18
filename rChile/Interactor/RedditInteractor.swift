@@ -13,7 +13,6 @@ import Moya
 protocol RedditInteractorProtocol  {
     func fetchThreads(paginated: String?) -> Observable<RedditThreadData>
     func search(target: String, paginated: String?) -> Observable<RedditThreadData>
-    func presentConfig() -> Observable<Void>
 }
 
 final class RedditInteractor: RedditInteractorProtocol {
@@ -48,10 +47,6 @@ final class RedditInteractor: RedditInteractorProtocol {
                 let filterRedditData = RedditThreadData(after: redditData.data.after, children: filterData)
                 return .just(filterRedditData)
             })
-    }
-    
-    func presentConfig() -> Observable<Void> {
-        return .just(())
     }
 }
 
